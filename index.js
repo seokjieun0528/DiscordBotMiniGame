@@ -1,5 +1,6 @@
 const { Client, Events, GatewayIntentBits } = require("discord.js");
 const { token } = require("./config.json");
+const gambleCommand = require("./commands/gamble");
 
 // 클라이언트 객체 생성
 const client = new Client({
@@ -15,9 +16,16 @@ client.once(Events.ClientReady, (readyClient) => {
 });
 
 //!hi라는 메시지를 받으면 "안녕!"이라고 대답하기
-client.on("messageCreate", (message) => {
-  if (message.content == "!hi") {
-    message.reply("안녕!");
+// client.on("messageCreate", (message) => {
+//   if (message.content == "!hi") {
+//     message.reply("안녕!");
+//   }
+// });
+
+client.on(Events.MessageCreate, async (message) => {
+  if (message.author.bot) return;
+  else if (message.content.startsWith("!도박")) {
+    await gambleCommand(message);
   }
 });
 
