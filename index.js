@@ -22,10 +22,12 @@ client.once(Events.ClientReady, (readyClient) => {
 //   }
 // });
 
-client.on(Events.MessageCreate, async (message) => {
-  if (message.author.bot) return;
-  else if (message.content.startsWith("!도박")) {
-    await gambleCommand(message);
+client.on(Events.InteractionCreate, async (interaction) => {
+  if (!interaction.isChatInputCommand()) return;
+
+  if (interaction.commandName === "도박") {
+    const amount = interaction.options.getInteger("금액");
+    await gambleCommand(interaction, amount); // 수정 필요
   }
 });
 
