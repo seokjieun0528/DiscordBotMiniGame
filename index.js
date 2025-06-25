@@ -2,6 +2,7 @@ const { Client, Events, GatewayIntentBits } = require("discord.js");
 const { token } = require("./config.json");
 const gambleCommand = require("./commands/gamble");
 const checkmoney = require("./commands/checkmoney");
+const ranking = require("./commands/ranking");
 
 // 클라이언트 객체 생성
 const client = new Client({
@@ -34,6 +35,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
   if (interaction.commandName === "잔액") {
     await checkmoney(interaction);
+  }
+
+  if (interaction.commandName === "랭킹") {
+    await ranking(interaction);
   }
 });
 

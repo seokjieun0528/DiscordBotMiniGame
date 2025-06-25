@@ -67,8 +67,9 @@ module.exports = async (interaction, amount) => {
       // let gambleCount = today != lastDate ? 0 : user.gamble_count;
       let gambleCount = user.gamble_count;
       if (today != lastDate) {
-        console.log("lastDate" + lastDate);
-        console.log("today" + today);
+        // console.log("lastDate" + lastDate);
+        // console.log("today" + today);
+        gambleCount = 0;
         gambleCount++;
       }
 

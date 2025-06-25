@@ -15,6 +15,11 @@ const commands = [
     .setName("잔액")
     .setDescription("현재 잔액을 확인합니다.")
     .toJSON(),
+
+  new SlashCommandBuilder()
+    .setName("랭킹")
+    .setDescription("랭킹을 확인합니다.")
+    .toJSON(),
 ];
 
 const rest = new REST({ version: "10" }).setToken(token);
