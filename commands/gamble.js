@@ -14,12 +14,6 @@ module.exports = async (interaction, amount) => {
     [userId],
     (err, results) => {
       console.log("DB 연결 정보 - user:", process.env.DB_USER);
-      if (err) {
-        console.log("DB 조회 오류", err);
-
-        return message.reply("오류가 발생했습니다");
-      }
-
       // !도박 만 입력한 경우
       if (err) {
         console.error("DB 조회 오류:", err);
