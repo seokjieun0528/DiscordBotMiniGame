@@ -10,6 +10,11 @@ const commands = [
       option.setName("금액").setDescription("베팅할 금액").setRequired(false)
     )
     .toJSON(),
+
+  new SlashCommandBuilder()
+    .setName("잔액")
+    .setDescription("현재 잔액을 확인합니다.")
+    .toJSON(),
 ];
 
 const rest = new REST({ version: "10" }).setToken(token);
