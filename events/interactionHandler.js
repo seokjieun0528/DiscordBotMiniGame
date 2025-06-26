@@ -3,9 +3,10 @@ const { loadChannels, saveChannels } = require("../utils/wordRelayChannels");
 const gambleCommand = require("../commands/gamble");
 const checkmoney = require("../commands/checkmoney");
 const ranking = require("../commands/ranking");
-const wordRelayCommand = require("../commands/wordRelay");
+const startWordGame = require("../commands/startWordGame");
+const endWordGame = require("../commands/endWordGame");
 
-// 등록된 끝말잇기 채널 목록 (Set)
+// 등록된 끝말잇기 채널 목록
 const registeredWordRelayChannels = loadChannels();
 
 module.exports = {
@@ -30,6 +31,7 @@ module.exports = {
 
         if (commandName === "끝말잇기등록") {
           const channelId = interaction.channel.id;
+
           if (registeredWordRelayChannels.has(channelId)) {
             return await interaction.reply({
               content: "📌 이 채널은 이미 끝말잇기 채널로 등록되어 있습니다.",
@@ -38,7 +40,7 @@ module.exports = {
           }
 
           registeredWordRelayChannels.add(channelId);
-          saveChannels(registeredWordRelayChannels); // 파일 저장
+          saveChannels(registeredWordRelayChannels);
           return await interaction.reply(
             "✅ 이 채널이 끝말잇기 채널로 등록되었습니다!"
           );
@@ -51,7 +53,8 @@ module.exports = {
               ephemeral: true,
             });
           }
-          return await wordRelayCommand(interaction);
+
+          return await startWordGame(interaction);
         }
 
         if (commandName === "끝말잇기종료") {
@@ -64,16 +67,14 @@ module.exports = {
             });
           }
 
-          await interaction.reply(
-            "끝말잇기 게임이 종료되었습니다. 수고하셨습니다!"
-          );
+          return await endWordGame(interaction);
         }
       }
     } catch (err) {
       console.error("❌ Interaction 처리 중 에러:", err);
       if (!interaction.replied && !interaction.deferred) {
         await interaction.reply({
-          content: "⚠️ 오류가 발생했습니다.",
+          content: "⚠️ 명령어 처리 중 오류가 발생했습니다.",
           ephemeral: true,
         });
       }
