@@ -5,6 +5,7 @@ const { isValidWord, getBotWord } = require("../utils/wordGameLogic");
 module.exports = {
   name: Events.MessageCreate,
   async execute(message) {
+    // 자기 자신에게 반응을 방지
     if (message.author.bot) return;
 
     const channelId = message.channel.id;
@@ -13,6 +14,7 @@ module.exports = {
 
     if (!game || game.turn !== "user") return;
 
+    // 이전 단어의 마지막 글자와 비교
     const lastChar = game.lastWord.slice(-1);
     if (word[0] !== lastChar) {
       delete gameStates[channelId];

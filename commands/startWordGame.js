@@ -4,6 +4,7 @@ const { getBotWord } = require("../utils/wordGameLogic");
 module.exports = async (interaction) => {
   const channelId = interaction.channel.id;
 
+  // 중복 실행 방지
   if (gameStates[channelId]) {
     return interaction.reply({
       content: "⚠️ 이미 끝말잇기 게임이 진행 중입니다!",
@@ -12,8 +13,10 @@ module.exports = async (interaction) => {
   }
 
   try {
-    await interaction.deferReply(); // 즉시 응답 지연
+    // Discord API 응답 시간 초과 방지..
+    await interaction.deferReply(); // 응답 지연
 
+    // 초기 단어 설정
     const botWord = await getBotWord("시작", []);
 
     gameStates[channelId] = {
@@ -23,7 +26,7 @@ module.exports = async (interaction) => {
     };
 
     await interaction.editReply(
-      `🧠 끝말잇기 시작! 제가 먼저 할게요: **${botWord}**\n당신의 차례입니다! 단어를 입력해주세요.`
+      `🧠 끝말잇기 시작! 제가 먼저 할게요: *${botWord}*\n당신의 차례입니다! 단어를 입력해주세요.`
     );
   } catch (error) {
     console.error(error);

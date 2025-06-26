@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const xml2js = require("xml2js");
+const xml2js = require("xml2js"); // 사전 API는 xml로 보내기 때문에 json으로 변환하기 위한 모듈 설치
 const { API_KEY } = require("../config.json");
 
 async function getBotWord(previousWord) {
@@ -13,9 +13,11 @@ async function getBotWord(previousWord) {
     lastChar
   )}&num=100`;
 
+  // API 요청, XML 형식으로 응답
   const response = await fetch(url);
   const xml = await response.text();
 
+  // XML -> JSON
   const parser = new xml2js.Parser({ explicitArray: false });
   const result = await parser.parseStringPromise(xml);
 
@@ -26,11 +28,13 @@ async function getBotWord(previousWord) {
     throw new Error("단어를 찾을 수 없습니다.");
   }
 
+  // 국립국어원에서 num만큼 반복해서 검색한 결과를 배열 형태로 반환
   const wordItems = Array.isArray(items) ? items : [items];
 
+  // 마지막 글자로 시작하고 두 글자 이상인 단어만
   const words = wordItems
-    .map((item) => item.word)
-    .filter((word) => word.startsWith(lastChar) && word.length > 1);
+    .map((item) => item.word) // item에서 word라는 속성만 꺼내서 배열로 만듬
+    .filter((word) => word.startsWith(lastChar) && word.length > 1); // 조건에 맞는 배열만 남김ㄴ
 
   if (words.length === 0) {
     throw new Error("적절한 단어를 찾지 못했습니다.");
@@ -40,6 +44,7 @@ async function getBotWord(previousWord) {
   return random;
 }
 
+// 사용자가 입력한 단어가 국어사전에 존재하는지 검사
 async function isValidWord(word) {
   if (!word || typeof word !== "string") return false;
   if (word.length < 2) return false;
