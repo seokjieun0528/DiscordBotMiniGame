@@ -20,6 +20,21 @@ const commands = [
     .setName("랭킹")
     .setDescription("랭킹을 확인합니다.")
     .toJSON(),
+
+  new SlashCommandBuilder()
+    .setName("끝말잇기등록")
+    .setDescription("현재 채널을 끝말잇기 채널로 등록합니다.")
+    .toJSON(),
+
+  new SlashCommandBuilder()
+    .setName("끝말잇기")
+    .setDescription("끝말잇기를 시작합니다.")
+    .toJSON(),
+
+  new SlashCommandBuilder()
+    .setName("끝말잇기종료")
+    .setDescription("끝말잇기 채널을 종료하고 삭제합니다.")
+    .toJSON(),
 ];
 
 const rest = new REST({ version: "10" }).setToken(token);
